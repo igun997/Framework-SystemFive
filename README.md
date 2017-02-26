@@ -11,3 +11,4 @@ MVC Kuliah Telegram
 * Disarankan memakai Bootsrap + FA
 * .htaccess di ganti sesuai keperluan
 * Jika memiliki sub dir ganti url[0] -> url[1] begitu juga sebaliknya, (app.page.php)
+* Route Pages Ada di app.pages.php
