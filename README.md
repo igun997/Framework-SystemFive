@@ -9,3 +9,5 @@ MVC Kuliah Telegram
 * API Google Drive V2 (google-api-client), API Google Drive V3 (Vendor)
 * Handle Error di views/error/
 * Disarankan memakai Bootsrap + FA
+* .htaccess di ganti sesuai keperluan
+* Jika memiliki sub dir ganti url[0] -> url[1] begitu juga sebaliknya, (app.page.php)
