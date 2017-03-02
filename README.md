@@ -13,3 +13,4 @@ MVC Kuliah Telegram
 * Jika memiliki sub dir ganti url[0] -> url[1] begitu juga sebaliknya, (app.page.php)
 * Route Pages Ada di app.pages.php
 * Ext hosting ext.jpg
+* Tambah Route_exist check route exist or not

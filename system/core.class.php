@@ -623,6 +623,29 @@ class sistemApp
         return $interval->format($differenceFormat);
 
     }
+    function route_exist($name)
+    {
+        $method = $_SERVER["QUERY_STRING"];
+        if(is_array($name))
+        {
+            foreach($name as $obj_name)
+            {
+                $check_route = strpos($method,$obj_name);
+                if($check_route == true)
+                {
+                    $identification[] = 1;
+                }else{
+                    $identification[] = 0;
+                }
+            }
+            $unique = array_unique($identification);
+            $counting = count($unique);
+            return ($counting > 1)?true:false;
+        }else{
+            return strpos($method,$name);
+        }
+        
+    }
     function mvc_get($get_name=null,$debug=false)
     {
             $method = $_SERVER["QUERY_STRING"];
