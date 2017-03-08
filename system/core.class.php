@@ -457,7 +457,7 @@ class BukaDB
         return mysqli_escape_string($this->mysqli, $string);
     }
 }
-class sistemApp
+class sistemApp extends BukaDB //Dont Forget Use $this-> For Call Function
 {
     function enkripsi_id($string)
     {
@@ -470,32 +470,7 @@ class sistemApp
     }
     function login($user,$pass)
     {
-        $con = new BukaDB;
-        $sis = new sistemApp;
-        $pass = $sis->enkripsi($pass);
-        $cari_user = json_decode($con->hitung_data("users","username",$user));
-        if($cari_user->total == 1)
-        {
-            $match_pass = json_decode($con->custom_query("SELECT nama,sekolah,id_users FROM users WHERE username='".$con->sql_escape($user)."' AND password = '".$con->sql_escape($pass)."'"));
-            if(!empty($match_pass))
-            {
-                $update_log = json_decode($con->update_db("users","log_masuk",date("d-m-Y"),"id_users",$match_pass[0]->id_users));
-                if($update_log->status == 1)
-                {
-                    $_SESSION["nama_users"] = $match_pass[0]->nama;
-                    $_SESSION["id_users"] = $match_pass[0]->id_users;
-                    $_SESSION["sekolah_users"] = $match_pass[0]->sekolah;
-                    return json_encode(array("status"=>1,"msg"=>"Login Berhasil"));
-                }else{
-                    return json_encode(array("status"=>0,"error"=>"Update Log Gagal, Login Failed"));
-                }
-                
-            }else{
-                return json_encode(array("status"=>0,"error"=>"Login Gagal"));
-            }
-        }else{
-            return json_encode(array("status"=>0,"error"=>"User Tidak Di Temukan"));
-        }
+        
     }
     function header_location($url,$time)
     {
