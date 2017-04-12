@@ -1,5 +1,4 @@
 <?php
-
 // Definisikan konstanta yg mengarah ke root folder
 define('ROOT', str_replace('system', '', __DIR__));
 define('ACCESS',true);
