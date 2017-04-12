@@ -461,7 +461,10 @@ class sistemApp extends BukaDB //Dont Forget Use $this-> For Call Function
 {
     static $post_handler;
     static $status_situs;
-    public static function __construct($value) { self::$post_handler = $value; }
+    public function __construct()
+    { 
+        self::$post_handler = $_POST; 
+    }
     public static function mvc_post($nama=null)
     {
         if($nama == null)
