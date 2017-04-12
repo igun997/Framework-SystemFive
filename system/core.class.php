@@ -459,6 +459,19 @@ class BukaDB
 }
 class sistemApp extends BukaDB //Dont Forget Use $this-> For Call Function
 {
+    static $post_handler;
+    static $status_situs;
+    public static function __construct($value) { self::$post_handler = $value; }
+    public static function mvc_post($nama=null)
+    {
+        if($nama == null)
+        {
+            return self::$post_handler;
+        }else{
+             return (isset(self::$post_handler[$nama]))?self::$post_handler[$nama]:null;
+        }
+       
+    }
     function enkripsi_id($string)
     {
         return md5("$^.&*()--_%^/".$string);
@@ -470,84 +483,6 @@ class sistemApp extends BukaDB //Dont Forget Use $this-> For Call Function
     }
     function login($user,$pass)
     {
-        $pass = $this->enkripsi($pass);
-        $check = array("users_guru","users_kepala","users_operator");
-        $checking = json_decode($this->select_db("users",array("id_users"),"username",$user));
-        if(!empty($checking))
-        {
-            $check_pass = json_decode($this->hitung_data("users","password",$pass));
-            if($check_pass->total > 0)
-            {
-                $verify = true;
-            }else{
-                $verify = false;
-            }
-        }else{
-            $verify = false;
-        }
-        if($verify == true)
-        {
-            foreach ($check as $obj_c)
-            {
-                if($obj_c == "users_guru")
-                {
-                    $hitung = json_decode($this->hitung_data($obj_c,"users_id",$checking[0]->id_users));
-                    if($hitung->total > 0)
-                    {
-                        $fetch_info = json_decode($this->select_db($obj_c,array("nama","id_guru","hak_akses"),"users_id",$checking[0]->id_users));
-                        $data = array("nama_users"=>$fetch_info[0]->nama,"id_info"=>$fetch_info[0]->id_guru,"id_users"=>$checking[0]->id_users,"hak_akses"=>$fetch_info[0]->hak_akses);
-                        $table = $obj_c;
-                        break;
-                    }else{
-                        $data = false;
-                    }
-                }else if($obj_c == "users_kepala")
-                {
-                    $hitung = json_decode($this->hitung_data($obj_c,"users_id",$checking[0]->id_users));
-                    if($hitung->total > 0)
-                    {
-                        $fetch_info = json_decode($this->select_db($obj_c,array("nama","id_kepala","hak_akses"),"users_id",$checking[0]->id_users));
-                        $data = array("nama_users"=>$fetch_info[0]->nama,"id_info"=>$fetch_info[0]->id_kepala,"id_users"=>$checking[0]->id_users,"hak_akses"=>$fetch_info[0]->hak_akses);
-                        $table = $obj_c;
-                        break;
-                    }else{
-                        $data = false;
-                    }
-                }else if($obj_c == "users_operator"){
-                       $hitung = json_decode($this->hitung_data($obj_c,"users_id",$checking[0]->id_users));
-                        if($hitung->total > 0)
-                        {
-                            $fetch_info = json_decode($this->select_db($obj_c,array("nama","id_operator","hak_akses"),"users_id",$checking[0]->id_users));
-                            $data = array("nama_users"=>$fetch_info[0]->nama,"id_info"=>$fetch_info[0]->id_operator,"id_users"=>$checking[0]->id_users,"hak_akses"=>$fetch_info[0]->hak_akses);
-                            $table = $obj_c;
-                            break;
-                        }else{
-                            $data = false;
-                        }
-                }
-               
-       
-               
-            }
-            if($data != false)
-            {
-                $log = json_decode($this->update_db("users","log_masuk",date("d-m-Y"),"id_users",$data["id_users"]));
-                if($log->status == 1)
-                {
-                    $_SESSION["nama_users"] = $data["nama_users"];
-                    $_SESSION["hak_akses"] = $data["hak_akses"];
-                    $_SESSION["id_info"] = $data["id_info"];
-                    $_SESSION["id_users"] = $data["id_users"];
-                    return json_encode(array("status"=>1,"msg"=>"User dan Password di Temukan","data"=>$data));
-                }else{
-                    return json_encode(array("status"=>0,"msg"=>"Gagal Input Log"));
-                }
-            }else{
-                return json_encode(array("status"=>0,"msg"=>"User dan Password Tidak Ditemukan"));
-            }
-        }else{
-            return json_encode(array("status"=>0,"msg"=>"User Tidak Ditemukan"));
-        }
         
     }
     function header_location($url,$time)
